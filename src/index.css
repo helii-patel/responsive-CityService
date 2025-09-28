@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Compact dual-handle range slider styles */
+.compact-min-slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: grab;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.compact-min-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+.compact-max-slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: grab;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.compact-max-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+/* Firefox styles */
+.compact-min-slider::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: grab;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  -moz-appearance: none;
+  border: none;
+}
+
+.compact-max-slider::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: grab;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  -moz-appearance: none;
+  border: none;
+}
+
+/* Hide the default tracks */
+.compact-min-slider::-webkit-slider-track,
+.compact-max-slider::-webkit-slider-track {
+  background: transparent;
+  border: none;
+  height: 14px;
+}
+
+.compact-min-slider::-moz-range-track,
+.compact-max-slider::-moz-range-track {
+  background: transparent;
+  border: none;
+  height: 14px;
+}
+
+/* Pointer events management for better dual-handle interaction */
+.compact-min-slider {
+  pointer-events: none;
+}
+
+.compact-min-slider::-webkit-slider-thumb {
+  pointer-events: all;
+}
+
+.compact-min-slider::-moz-range-thumb {
+  pointer-events: all;
+}
+
+.compact-max-slider {
+  pointer-events: none;
+}
+
+.compact-max-slider::-webkit-slider-thumb {
+  pointer-events: all;
+}
+
+.compact-max-slider::-moz-range-thumb {
+  pointer-events: all;
+}

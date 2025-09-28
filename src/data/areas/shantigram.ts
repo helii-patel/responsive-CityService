@@ -1,0 +1,2 @@
+export const SHANTIGRAM_IMAGE = 'https://housing-images.n7net.in/4f2250e8/e0ae4cf613ba11bb35c7698ae4c275d7/v0/large.jpeg';
+export const SHANTIGRAM_LISTING = 'https://housing.com/rent/flats-for-rent-in-shantigram-ahmedabad-P6i6aj3czx349iukp';
