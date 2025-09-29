@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Settings, Bell, Shield } from 'lucide-react';
+import { supabase } from '../config/supabase';
 
 interface ProfileProps {
   user?: {
@@ -191,38 +192,39 @@ export const Profile: React.FC<ProfileProps> = ({ user, onAuthRequired }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  // Fetch profile data from backend when component mounts
+  // Fetch profile data from Supabase when component mounts
   useEffect(() => {
     const fetchProfileData = async () => {
       if (!user) return;
       
       try {
-        const token = localStorage.getItem('token');
         console.log('🔍 Fetching profile data for user:', user.email);
         
-        const response = await fetch('/api/profile', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        // Get current user from Supabase
+        const { data: { user: currentUser }, error } = await supabase.auth.getUser();
+        
+        if (error) {
+          console.error('❌ Error getting Supabase user:', error);
+          throw error;
+        }
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log('✅ Profile data fetched:', data);
+        if (currentUser) {
+          // Use user metadata for profile data
+          const metadata = currentUser.user_metadata || {};
           
-          // Update profile data with fetched data, fallback to user data if field is empty
+          console.log('✅ User metadata loaded:', metadata);
+          console.log('✅ User info:', { email: currentUser.email, id: currentUser.id });
+          
           setProfileData({
-            name: data.user?.name || user.name || '',
-            email: data.user?.email || user.email || '',
-            phone: data.user?.phone || user.phone || '',
-            city: data.user?.city || user.city || '',
-            profession: data.user?.profession || user.profession || '',
-            company: data.user?.company || user.company || '',
+            name: metadata.name || metadata.full_name || user.name || '',
+            email: currentUser.email || user.email || '',
+            phone: metadata.phone || user.phone || '',
+            city: metadata.city || user.city || '',
+            profession: metadata.profession || user.profession || '',
+            company: metadata.company || user.company || '',
           });
         } else {
-          console.log('🔍 No saved profile data found, using user data');
-          // Fallback to user data if no profile found
+          console.log('🔍 No authenticated user found, using local user data');
           setProfileData({
             name: user.name || '',
             email: user.email || '',
@@ -279,32 +281,22 @@ export const Profile: React.FC<ProfileProps> = ({ user, onAuthRequired }) => {
     setMessage('');
     
     try {
-      const token = localStorage.getItem('token');
-      console.log('🔍 Token found:', token ? 'Yes' : 'No');
       console.log('🔍 Profile data to save:', profileData);
       
-      const response = await fetch('/api/profile', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
+      // Update user metadata in Supabase
+      const { data, error } = await supabase.auth.updateUser({
+        data: {
           name: profileData.name,
           phone: profileData.phone,
           city: profileData.city,
           profession: profileData.profession,
           company: profileData.company,
-        }),
+        }
       });
 
-      console.log('🔍 Response status:', response.status);
-      const data = await response.json();
-      console.log('🔍 Response data:', data);
-
-      if (!response.ok) {
-        console.log('❌ Save failed:', data.error);
-        setMessage(data.error || 'Failed to update profile');
+      if (error) {
+        console.error('❌ Supabase update error:', error);
+        setMessage(error.message || 'Failed to update profile');
         return;
       }
 
@@ -312,7 +304,14 @@ export const Profile: React.FC<ProfileProps> = ({ user, onAuthRequired }) => {
       setMessage('Profile updated successfully!');
       
       // Update localStorage with new user data
-      const updatedUser = { ...user, ...data.user };
+      const updatedUser = { 
+        ...user, 
+        name: profileData.name,
+        phone: profileData.phone,
+        city: profileData.city,
+        profession: profileData.profession,
+        company: profileData.company,
+      };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       
       // Clear message after 3 seconds
