@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Aggressive override for browser default option selection colors */
+select option,
+select option:hover,
+select option:focus,
+select option:active,
+select option:checked,
+select option[selected] {
+  background-color: #f8fafc !important; /* slate-50 */
+  background: #f8fafc !important;
+  color: #475569 !important; /* slate-600 */
+}
+
+/* Webkit browsers (Chrome, Safari) */
+select option:hover {
+  background: #f1f5f9 !important; /* slate-100 */
+  background-color: #f1f5f9 !important;
+  color: #334155 !important; /* slate-700 */
+}
+
+select option:checked,
+select option[selected] {
+  background: linear-gradient(#e2e8f0, #e2e8f0) !important; /* slate-200 */
+  background-color: #e2e8f0 !important;
+  color: #1e293b !important; /* slate-800 */
+}
+
+/* Firefox specific overrides */
+@-moz-document url-prefix() {
+  select option:hover {
+    background-color: #f1f5f9 !important;
+    color: #334155 !important;
+  }
+  
+  select option:checked {
+    background-color: #e2e8f0 !important;
+    color: #1e293b !important;
+  }
+}
+
+/* Remove blue highlight on focus for all form elements */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none !important;
+}
+
+/* Custom select styling to override browser defaults */
+.custom-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Global override for all select elements */
+select {
+  color-scheme: light !important;
+}
+
+/* Override option styling for custom-select */
+.custom-select option,
+.custom-select option:hover,
+.custom-select option:focus,
+.custom-select option:active,
+.custom-select option:checked,
+.custom-select option[selected] {
+  background-color: #f8fafc !important; /* slate-50 */
+  background: #f8fafc !important;
+  color: #475569 !important; /* slate-600 */
+  padding: 8px 12px !important;
+}
+
+.custom-select option:hover {
+  background-color: #f1f5f9 !important; /* slate-100 */
+  background: #f1f5f9 !important;
+  color: #334155 !important; /* slate-700 */
+}
+
+.custom-select option:checked,
+.custom-select option[selected] {
+  background-color: #e2e8f0 !important; /* slate-200 */
+  background: linear-gradient(#e2e8f0, #e2e8f0) !important;
+  color: #1e293b !important; /* slate-800 */
+  font-weight: 600 !important;
+}
+
+/* Compact dual-handle range slider styles */
+.compact-min-slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: grab;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.compact-min-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+.compact-max-slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #475569;
+  cursor: grab;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.compact-max-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+/* Firefox styles */
+.compact-min-slider::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #10b981;
+  cursor: grab;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  -moz-appearance: none;
+  border: none;
+}
+
+.compact-max-slider::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #475569;
+  cursor: grab;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  -moz-appearance: none;
+  border: none;
+}
+
+/* Hide the default tracks */
+.compact-min-slider::-webkit-slider-track,
+.compact-max-slider::-webkit-slider-track {
+  background: transparent;
+  border: none;
+  height: 14px;
+}
+
+.compact-min-slider::-moz-range-track,
+.compact-max-slider::-moz-range-track {
+  background: transparent;
+  border: none;
+  height: 14px;
+}
+
+/* Pointer events management for better dual-handle interaction */
+.compact-min-slider {
+  pointer-events: none;
+}
+
+.compact-min-slider::-webkit-slider-thumb {
+  pointer-events: all;
+}
+
+.compact-min-slider::-moz-range-thumb {
+  pointer-events: all;
+}
+
+.compact-max-slider {
+  pointer-events: none;
+}
+
+.compact-max-slider::-webkit-slider-thumb {
+  pointer-events: all;
+}
+
+.compact-max-slider::-moz-range-thumb {
+  pointer-events: all;
+}
